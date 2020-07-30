@@ -1,0 +1,38 @@
+.DS_STORE
+
+# Virtualenv related
+bin/
+include/
+pip-selfcheck.json
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.venv
+env/
+venv/
+fvenv/
+ENV/
+
+# flake8
+.flake8
+
+# VSCode
+.vscode/*
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
