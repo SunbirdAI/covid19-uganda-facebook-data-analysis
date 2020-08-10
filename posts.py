@@ -1,15 +1,17 @@
 from decouple import config
 import requests
+import pymongo
 
 api_token = config('CROWDTANGLE_API_TOKEN')
+group_list = config('GROUP_LIST_ID')
 
-import pymongo
 db_client = pymongo.MongoClient()
-pages_db = db_client["fbpages"]
-col = pages_db["posts"]
+posts_db = db_client["fbposts"]
+col = posts_db["posts"]
 
-url = f'https://api.crowdtangle.com/posts?token={api_token}'
-posts_data = requests.get(url)
-posts_data.text
+payload = {'token': api_token, 'listIds': group_list}
+url = 'https://api.crowdtangle.com/posts'
+posts_data = requests.get(url, params=payload)
+posts = posts_data.json()['result']
 
-col.insert_many(posts_data)
+col.insert_many(posts['posts'])
