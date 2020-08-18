@@ -8,7 +8,6 @@ group_list = config('GROUP_LIST_ID')
 db_client = pymongo.MongoClient()
 posts_db = db_client["fbposts"]
 col = posts_db["posts"]
-posts_db.posts.create_index([('text', pymongo.ASCENDING)], unique=True)
 
 payload = {
     'token': api_token, 'listIds': group_list,
