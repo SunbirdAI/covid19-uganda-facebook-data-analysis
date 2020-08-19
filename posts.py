@@ -11,7 +11,8 @@ col = posts_db["posts"]
 
 payload = {
     'token': api_token, 'listIds': group_list,
-    'startDate': '2020-03-01', 'sortBy': 'date'
+    'startDate': '2020-03-01', 'sortBy': 'date',
+    'count': 99
 }
 url = 'https://api.crowdtangle.com/posts'
 posts_data = requests.get(url, params=payload)
@@ -23,3 +24,4 @@ for post in posts:
     post_text_list.append({'text': text})
 
 col.insert_many(post_text_list)
+print(len(post_text_list))
