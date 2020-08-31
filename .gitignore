@@ -36,3 +36,6 @@ ENV/
 
 # Local History for Visual Studio Code
 .history/
+
+# csv files
+*.csv
