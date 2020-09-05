@@ -38,4 +38,4 @@ ENV/
 .history/
 
 # csv files
-*.csv
+# *.csv
