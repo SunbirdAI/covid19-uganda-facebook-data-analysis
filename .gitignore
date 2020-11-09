@@ -37,5 +37,6 @@ ENV/
 # Local History for Visual Studio Code
 .history/
 
-# Ignore historical data csv files
+# Ignore data folder
 *Historical*
+data/
