@@ -1,10 +1,8 @@
 from decouple import config
 import requests
-import pymongo
+from utils import get_db_collection
 
-db_client = pymongo.MongoClient()
-posts_db = db_client["fbposts"]
-col = posts_db["covid-posts"]
+posts = get_db_collection('fb_posts', 'covid-posts')
 
 api_token = config('CROWDTANGLE_API_TOKEN')
 
@@ -36,3 +34,7 @@ while 'nextPage' in data['result']['pagination']:
     data = resp.json()
     all_posts.append(data['result']['posts'])
     next_page = data['result']['pagination']['nextPage']
+
+# insert posts into db here
+
+
