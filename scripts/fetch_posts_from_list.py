@@ -1,27 +1,32 @@
 from decouple import config
 import requests
-import pymongo
+from utils import get_db_collection
 
-api_token = config('CROWDTANGLE_API_TOKEN')
-group_list = config('GROUP_LIST_ID')
 
-db_client = pymongo.MongoClient()
-posts_db = db_client["fbposts"]
-col = posts_db["posts"]
+def fetch_posts():
+    params = {
+        'token': api_token, 'listIds': group_list,
+        'startDate': '2020-03-01', 'sortBy': 'date',
+        'count': 99
+    }
+    url = 'https://api.crowdtangle.com/posts'
+    posts_data = requests.get(url, params=params)
+    posts = posts_data.json()['result']['posts']
 
-payload = {
-    'token': api_token, 'listIds': group_list,
-    'startDate': '2020-03-01', 'sortBy': 'date',
-    'count': 99
-}
-url = 'https://api.crowdtangle.com/posts'
-posts_data = requests.get(url, params=payload)
-posts = posts_data.json()['result']['posts']
+    posts_text = []
+    for post in posts:
+        text = post.get('message', '')
+        posts_text.append({'text': text})
+    return posts_text
 
-post_text_list = []
-for post in posts:
-    text = post.get('message', '')
-    post_text_list.append({'text': text})
 
-col.insert_many(post_text_list)
-print(len(post_text_list))
+def insert_posts_in_db(posts):
+    posts_collection = get_db_collection('fb_posts', 'moh-posts')
+    posts_collection.insert_many(posts)
+
+
+if __name__ == '__main__':
+    api_token = config('CROWDTANGLE_API_TOKEN')
+    group_list = config('MOH_GROUP_LIST_ID')
+    posts = fetch_posts()
+    insert_posts_in_db(posts)
