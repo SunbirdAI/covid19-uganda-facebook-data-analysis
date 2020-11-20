@@ -1,5 +1,5 @@
 from decouple import config
-from utils import get_db_collection
+from db_utils import get_db_collection
 
 
 def retrieve_posts(collection, query={}):

@@ -1,9 +1,9 @@
 from decouple import config
 import requests
-from utils import get_db_collection
+from db_utils import get_db_collection
 
 
-def fetch_posts(api_token):
+def fetch_posts(api_token, url):
     params = {
         "count": '100',
         "startDate": '2020-07-02T16:00:00',
@@ -11,8 +11,6 @@ def fetch_posts(api_token):
         "searchTerm": 'covid-19, covid19',
         "token": api_token
     }
-
-    url = 'https://api.crowdtangle.com/posts/search'
 
     resp = requests.get(url, params=params)
     if resp.status_code != 200:
@@ -38,6 +36,9 @@ def fetch_posts(api_token):
 
 if __name__ == '__main__':
     api_token = config('CROWDTANGLE_API_TOKEN')
-    posts_collection = get_db_collection('fb_posts', 'covid-posts')
-    posts = fetch_posts(api_token)
+    db = config('DB_NAME')
+    col = config('COVID_DB_COLLECTION_NAME')
+    posts_collection = get_db_collection(db, col)
+    url = 'https://api.crowdtangle.com/posts/search'
+    posts = fetch_posts(api_token, url)
     posts_collection.insert_many(posts)

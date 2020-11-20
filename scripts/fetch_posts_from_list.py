@@ -1,6 +1,6 @@
 from decouple import config
 import requests
-from utils import get_db_collection
+from db_utils import get_db_collection
 
 
 def fetch_posts(api_token, url):
