@@ -2,6 +2,10 @@ from decouple import config
 import requests
 from db_utils import get_db_collection
 
+# TO DO
+# Refactor file and extract common functionality
+# into a separate module
+
 
 def fetch_posts(api_token, url):
     params = {
@@ -39,6 +43,6 @@ if __name__ == '__main__':
     db = config('DB_NAME')
     col = config('COVID_DB_COLLECTION_NAME')
     posts_collection = get_db_collection(db, col)
-    url = 'https://api.crowdtangle.com/posts/search'
+    url = config('POSTS_SEARCH_URL')
     posts = fetch_posts(api_token, url)
     posts_collection.insert_many(posts)

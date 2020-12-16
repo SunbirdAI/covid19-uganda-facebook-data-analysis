@@ -2,6 +2,10 @@ from decouple import config
 import requests
 from db_utils import get_db_collection
 
+# TO DO
+# Refactor file and extract common functionality
+# into a separate module
+
 
 def fetch_posts(api_token, url):
     params = {
@@ -32,6 +36,6 @@ if __name__ == '__main__':
     group_list = config('MOH_GROUP_LIST_ID')
     db = config('DB_NAME')
     col = config('MOH_DB_COLLECTION_NAME')
-    url = 'https://api.crowdtangle.com/posts'
+    url = config('POSTS_URL')
     posts = fetch_posts(api_token, url)
     insert_posts_in_db(posts, db, col)
